@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('direction', function (Blueprint $table) {
+        Schema::create('inner_regions', function (Blueprint $table) {
             $table->id();
+            $table->string("name", 16);
             $table->integer("federalRegionId")
                 ->nullable();
-            $table->integer("regionId");
-            $table->integer("cityId");
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('direction');
+        Schema::dropIfExists('inner_regions');
     }
 };
