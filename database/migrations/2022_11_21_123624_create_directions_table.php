@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\City;
+use App\Models\Direction;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +19,8 @@ return new class extends Migration
             $table->id();
             $table->integer("federalRegionId")
                 ->nullable();
-            $table->integer("regionId");
+            $table->integer("regionId")
+                ->nullable();
             $table->integer("cityId");
             $table->timestamps();
         });
