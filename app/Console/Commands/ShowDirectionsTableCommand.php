@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\LocationController;
+use App\Models\City;
+use App\Models\Direction;
 use Illuminate\Console\Command;
 
 class ShowDirectionsTableCommand extends Command
@@ -12,14 +14,14 @@ class ShowDirectionsTableCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'city:directions {--inner=?} {--federal=?}';
+    protected $signature = 'city:directions {--inner=?} {--federal=?} {--update}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Show table of directions records.';
 
     /**
      * Execute the console command.
@@ -28,6 +30,20 @@ class ShowDirectionsTableCommand extends Command
      */
     public function handle()
     {
+        if ($this->hasOption("update") && $this->option("update")) {
+            $cities = City::all();
+            foreach ($cities as $city) {
+                $d = new Direction();
+                $d->cityId = $city->id;
+                $d->regionId = $city->region()->id;
+                $d->federalRegionId = $city->region()->federalRegion()->id;
+                $d->save();
+            }
+
+            $this->info("Direction table has been filled of existing information.");
+            return Command::SUCCESS;
+        }
+
         $isInnerNotEmpty = $this->hasOption("inner") && $this->option("inner") != "";
         $isFederalNotEmpty = $this->hasOption("federal") && $this->option("federal") != "";
 

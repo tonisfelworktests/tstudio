@@ -120,12 +120,12 @@ class LocationController extends Controller
         echo "Directions list:" . PHP_EOL;
         $headerMask = "|%-5.5s | %-15.10s | %-20.20s | %-21.20s |\n";
         $hrMask = "|%'-6.5s|%'-17.10s|%'-22.20s|%'-23.20s|\n";
-        $mask = "|%-5.5g | %-20.10s | %-25.10s | %-30.30s |\n";
+        $mask = "|%5.5g | %20.14s | %20.20s | %15s |\n";
         printf($headerMask, "ID", "City", "Region", "Federal region");
         printf($hrMask, "-","-","-","-");
         //printf("'-");
         foreach ($table as $line) {
-            printf($mask, $line->id, $line->city, $line->region, $line->federal_region);
+            printf($mask, $line->id, trim($line->city), trim($line->region), trim($line->federal_region));
         }
     }
 }
