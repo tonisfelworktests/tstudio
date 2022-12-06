@@ -75,6 +75,7 @@ class ShowDirectionsTableCommand extends Command
             $type = LocationController::FEDERAL_REGION_ID;
         }
 
-        LocationController::showDirections($type, $this->option("inner"), $this->option("federal"));
+        $directions = LocationController::getDirections($type, $this->option("inner"), $this->option("federal"));
+        $this->table(["ID", "City", "Region", "Federal region"], $directions);
     }
 }

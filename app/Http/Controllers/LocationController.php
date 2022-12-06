@@ -96,7 +96,7 @@ class LocationController extends Controller
         return true;
     }
 
-    public static function showDirections(int $tableType, string $innerRegion = "", string $federalRegion = "") : void {
+    public static function getDirections(int $tableType, string $innerRegion = "", string $federalRegion = "") {
         $table = Direction::select(["cities.id as id", "cities.name as city", "inner_regions.name as region", "federal_regions.name as federal_region"])
             ->leftJoin("cities", "cities.id", "=", "directions.cityId")
             ->leftJoin("inner_regions", "inner_regions.id", "=", "directions.regionId")
@@ -115,17 +115,8 @@ class LocationController extends Controller
             default:
                 break;
         }
-        $table = $table->get();
+        $table = $table->get()->toArray();
 
-        echo "Directions list:" . PHP_EOL;
-        $headerMask = "|%-5.5s | %-15.10s | %-20.20s | %-21.20s |\n";
-        $hrMask = "|%'-6.5s|%'-17.10s|%'-22.20s|%'-23.20s|\n";
-        $mask = "|%5.5g | %20.14s | %20.20s | %15s |\n";
-        printf($headerMask, "ID", "City", "Region", "Federal region");
-        printf($hrMask, "-","-","-","-");
-        //printf("'-");
-        foreach ($table as $line) {
-            printf($mask, $line->id, trim($line->city), trim($line->region), trim($line->federal_region));
-        }
+        return $table;
     }
 }
